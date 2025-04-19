@@ -18,3 +18,20 @@ def preprocess(df):
     df['total_score'] = df[score_cols].sum(axis=1)
     df['average_score'] = df['total_score'] / len(score_cols)
     le = LabelEncoder()
+    for c in ['gender', 'part_time_job', 'extracurricular_activities']:
+        df[c] = le.fit_transform(df[c])
+    df = pd.get_dummies(df, columns=['career_aspiration'], prefix='career')
+    df = df.drop(columns=['id', 'first_name', 'last_name', 'email'])
+    return df
+
+def save_data(df, path):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    df.to_csv(path, index=False)
+
+def main():
+    raw = load_data('data/student-scores.csv')
+    processed = preprocess(raw)
+    save_data(processed, 'data/processed/student_scores_processed.csv')
+
+if __name__ == '__main__':
+    main()
