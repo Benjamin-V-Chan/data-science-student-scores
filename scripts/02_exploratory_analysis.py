@@ -18,3 +18,17 @@ def main():
         plt.savefig(f'outputs/figures/hist_{col}.png')
         plt.close()
     corr = df[num_cols].corr()
+    plt.figure(figsize=(10,8))
+    sns.heatmap(corr, annot=True, fmt=".2f")
+    plt.title('Correlation Matrix')
+    plt.savefig('outputs/figures/correlation_heatmap.png')
+    plt.close()
+    for cat in ['gender', 'part_time_job', 'extracurricular_activities']:
+        plt.figure()
+        sns.boxplot(x=cat, y='average_score', data=df)
+        plt.title(f'Average Score by {cat}')
+        plt.savefig(f'outputs/figures/box_{cat}.png')
+        plt.close()
+
+if __name__ == '__main__':
+    main()
