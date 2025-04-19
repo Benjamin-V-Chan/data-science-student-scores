@@ -27,3 +27,38 @@ project-root/
     └── report.json                  # Final summary report
 ```
 
+# Usage
+
+1. **Setup the Project:**
+   - Clone the repository.
+   - Ensure you have Python installed.
+   - Install required dependencies using the requirements.txt file.
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. **Preprocess Data:**
+   ```bash
+   python scripts/01_data_preprocessing.py
+   ```
+
+3. **Run Exploratory Analysis:**
+   ```bash
+   python scripts/02_exploratory_analysis.py
+   ```
+
+4. **Train Prediction Model:**
+   ```bash
+   python scripts/03_model_training.py
+   ```
+
+5. **Perform Simulation Analysis:**
+   ```bash
+   python scripts/04_simulation_analysis.py
+   ```
+
+6. **Generate Final Report:**
+   ```bash
+   python scripts/05_report_generation.py
+   ```
+
