@@ -22,3 +22,19 @@ def train_and_evaluate(df):
     r2 = r2_score(y_test, preds)
     return model, {'rmse': rmse, 'r2': r2}
 
+def save_artifacts(model, metrics):
+    os.makedirs('outputs/models', exist_ok=True)
+    joblib.dump(model, 'outputs/models/student_score_model.pkl')
+    pd.Series(model.feature_importances_,
+              index=model.feature_names_in_).sort_values(ascending=False) \
+        .to_csv('outputs/models/feature_importances.csv', header=['importance'])
+    with open('outputs/metrics.json', 'w') as f:
+        json.dump(metrics, f, indent=2)
+
+def main():
+    df = load_data('data/processed/student_scores_processed.csv')
+    model, metrics = train_and_evaluate(df)
+    save_artifacts(model, metrics)
+
+if __name__ == '__main__':
+    main()
