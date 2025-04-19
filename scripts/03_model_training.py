@@ -1,9 +1,24 @@
-# Load processed data
-# Define X = all features except 'average_score'; y = 'average_score'
-# Split into train/test sets (e.g. 80/20)
-# Instantiate RandomForestRegressor (with fixed random_state)
-# Train on training data
-# Predict on test data
-# Compute RMSE and R2; save metrics.json under outputs/metrics.json
-# Extract feature_importances_; save as CSV under outputs/models/feature_importances.csv
-# Serialize trained model to outputs/models/student_score_model.pkl
+import os
+import json
+import joblib
+import pandas as pd
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.model_selection import train_test_split
+
+def load_data(path):
+    return pd.read_csv(path)
+
+def train_and_evaluate(df):
+    X = df.drop(columns=['average_score'])
+    y = df['average_score']
+    X_train, X_test, y_train, y_test = train_test_split(X, y,
+                                                        test_size=0.2,
+                                                        random_state=42)
+    model = RandomForestRegressor(n_estimators=100, random_state=42)
+    model.fit(X_train, y_train)
+    preds = model.predict(X_test)
+    rmse = mean_squared_error(y_test, preds, squared=False)
+    r2 = r2_score(y_test, preds)
+    return model, {'rmse': rmse, 'r2': r2}
+
