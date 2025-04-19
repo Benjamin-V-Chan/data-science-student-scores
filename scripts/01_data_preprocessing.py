@@ -1,13 +1,20 @@
-# Load raw data from data/student-scores.csv
-# Drop duplicate rows based on 'id'
-# Handle missing values:
-#   - Fill numeric columns with their median
-#   - Fill categorical columns with their mode
-# Feature engineering:
-#   - Create 'total_score' = sum of all subject scores
-#   - Create 'average_score' = total_score / number of subjects
-# Encode categorical variables:
-#   - Label‑encode 'gender', 'part_time_job', 'extracurricular_activities'
-#   - One‑hot encode 'career_aspiration'
-# Drop personal‑info columns: 'id','first_name','last_name','email'
-# Save processed DataFrame to data/processed/student_scores_processed.csv
+import os
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+
+def load_data(path):
+    return pd.read_csv(path)
+
+def preprocess(df):
+    df = df.drop_duplicates(subset='id')
+    num_cols = df.select_dtypes(include='number').columns.tolist()
+    for c in num_cols:
+        df[c] = df[c].fillna(df[c].median())
+    cat_cols = ['gender', 'part_time_job', 'extracurricular_activities', 'career_aspiration']
+    for c in cat_cols:
+        df[c] = df[c].fillna(df[c].mode()[0])
+    score_cols = ['math_score', 'history_score', 'physics_score',
+                  'chemistry_score', 'biology_score', 'english_score', 'geography_score']
+    df['total_score'] = df[score_cols].sum(axis=1)
+    df['average_score'] = df['total_score'] / len(score_cols)
+    le = LabelEncoder()
