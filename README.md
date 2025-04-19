@@ -62,3 +62,19 @@ project-root/
    python scripts/05_report_generation.py
    ```
 
+# Requirements
+
+- Python 3.7+
+- pandas
+- numpy
+- scikit-learn
+- matplotlib
+- seaborn
+- joblib
+
+# Acknowledgments
+
+dataset name: 🎓 Student Scores  
+dataset author: mexwell  
+dataset source: https://www.kaggle.com/datasets/mexwell/student-scores
+
